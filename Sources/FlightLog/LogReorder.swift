@@ -16,6 +16,8 @@ public class LogRecorder {
         self.rootPath = ""
     }
     
+    var fileHandleFactory = FileHandleFactory.init()
+    var fileManager: FileManagerProtocol = FileManager.default
     
     public func record() -> String? {
         return ""
