@@ -28,8 +28,8 @@ final class LogTests: XCTestCase {
     private func testLogWithPring(
         level: Log,
         content: String,
-        expectedPrefix: String)
-    {
+        expectedPrefix: String
+    ) {
         let expectation = expectation(description: "Write to STDOUT")
         let pipe = Pipe.init()
         pipe.fileHandleForReading
@@ -48,49 +48,49 @@ final class LogTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
     
-    public func testLogDebugWithPrintMethod() {
+    func testLogDebugWithPrintMethod() {
         testLogWithPring(
             level: .debug,
             content: "Test_Print_MSg",
             expectedPrefix: "🔍"
-        );
+        )
     }
     
-    public func testLogInfoWithPrintMethod() {
+    func testLogInfoWithPrintMethod() {
         testLogWithPring(
             level: .info,
             content: "Test_Print_MSg",
             expectedPrefix: "💬"
-        );
+        )
     }
     
-    public func testLogWarningWithPrintMethod() {
+    func testLogWarningWithPrintMethod() {
         testLogWithPring(
             level: .warning,
             content: "Test_Print_MSg",
             expectedPrefix: "⚠️"
-        );
+        )
     }
 
-    public func testLogErrorWithPrintMethod() {
+    func testLogErrorWithPrintMethod() {
         testLogWithPring(
             level: .error,
             content: "Test_Print_MSg",
             expectedPrefix: "❌"
-        );
+        )
     }
     
     private func testLogWithNSLog(
         level: Log,
         content: String,
-        expectedPrefix: String)
-    {
+        expectedPrefix: String
+    ) {
         let expectation = expectation(description: "Write to STDOUT")
         let pipe = Pipe.init()
         let origin: Int32 = dup(STDERR_FILENO)
         pipe.fileHandleForReading
             .readabilityHandler = { readHandle in
-                dup2(origin, STDERR_FILENO);
+                dup2(origin, STDERR_FILENO)
                 expectation.fulfill()
                 let msg = String.init(
                     data: readHandle.availableData,
@@ -106,44 +106,44 @@ final class LogTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    public func testLogDebugWithNSLogMethod() {
+    func testLogDebugWithNSLogMethod() {
         testLogWithNSLog(
             level: .debug,
             content: "Test_Print_MSg",
             expectedPrefix: "🔍"
-        );
+        )
     }
 
-    public func testLogInfoWithNSLogMethod() {
+    func testLogInfoWithNSLogMethod() {
         testLogWithNSLog(
             level: .info,
             content: "Test_Print_MSg",
             expectedPrefix: "💬"
-        );
+        )
     }
 
-    public func testLogWarningWithNSLogMethod() {
+    func testLogWarningWithNSLogMethod() {
         testLogWithNSLog(
             level: .warning,
             content: "Test_Print_MSg",
             expectedPrefix: "⚠️"
-        );
+        )
     }
 
-    public func testLogErrorWithNSLogMethod() {
+    func testLogErrorWithNSLogMethod() {
         testLogWithNSLog(
             level: .error,
             content: "Test_Print_MSg",
             expectedPrefix: "❌"
-        );
+        )
     }
 
     private func testLogIngoreLevel(
         level: Log,
         ignorLevels: [Log],
         content: String,
-        method: Log.OutputMethod)
-    {
+        method: Log.OutputMethod
+    ) {
         let testMsg = content
         let expectation = expectation(description: "Write to STDOUT")
         expectation.isInverted = true
@@ -152,10 +152,10 @@ final class LogTests: XCTestCase {
         let originStdOut: Int32 = dup(STDOUT_FILENO)
         pipe.fileHandleForReading
             .readabilityHandler = { readHandle in
-                if (method == .nslog) {
+                if method == .nslog {
                     dup2(originStdErr, STDERR_FILENO)
                 }
-                if (method == .print) {
+                if method == .print {
                     dup2(originStdOut, STDOUT_FILENO)
                 }
                 expectation.fulfill()
@@ -176,7 +176,7 @@ final class LogTests: XCTestCase {
         waitForExpectations(timeout: 1)
     }
 
-    public func testLogDebugIngoreLevel() {
+    func testLogDebugIngoreLevel() {
         testLogIngoreLevel(
             level: .debug,
             ignorLevels: [.debug, .error, .info, .warning],
@@ -191,7 +191,7 @@ final class LogTests: XCTestCase {
         )
     }
 
-    public func testLogInfoIngoreLevel() {
+    func testLogInfoIngoreLevel() {
         testLogIngoreLevel(
             level: .info,
             ignorLevels: [.debug, .error, .info, .warning],
@@ -200,13 +200,13 @@ final class LogTests: XCTestCase {
         )
         testLogIngoreLevel(
             level: .info,
-            ignorLevels:[.debug, .error, .info, .warning],
+            ignorLevels: [.debug, .error, .info, .warning],
             content: "Test Log",
             method: .print
         )
     }
 
-    public func testErrorInfoIngoreLevel() {
+    func testErrorInfoIngoreLevel() {
         testLogIngoreLevel(
             level: .error,
             ignorLevels: [.debug, .error, .info, .warning],
@@ -215,13 +215,13 @@ final class LogTests: XCTestCase {
         )
         testLogIngoreLevel(
             level: .error,
-            ignorLevels:[.debug, .error, .info, .warning],
+            ignorLevels: [.debug, .error, .info, .warning],
             content: "Test Log",
             method: .print
         )
     }
 
-    public func testLogWarningIngoreLevel() {
+    func testLogWarningIngoreLevel() {
         testLogIngoreLevel(
             level: .warning,
             ignorLevels: [.debug, .error, .info, .warning],
@@ -230,10 +230,9 @@ final class LogTests: XCTestCase {
         )
         testLogIngoreLevel(
             level: .warning,
-            ignorLevels:[.debug, .error, .info, .warning],
+            ignorLevels: [.debug, .error, .info, .warning],
             content: "Test Log",
             method: .print
         )
     }
 }
-
