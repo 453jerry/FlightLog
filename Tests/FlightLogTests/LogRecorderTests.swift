@@ -195,7 +195,7 @@ final class LogRecorderTests: XCTestCase {
         }
     }
     
-    private class MockFileHandleFactory: FileHandleFactory {
+    private class MockFileHandleFactory: StubFileHandleFactory {
         private let pipe = Pipe()
         
         var writedString: String = ""
