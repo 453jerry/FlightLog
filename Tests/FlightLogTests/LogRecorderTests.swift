@@ -206,7 +206,7 @@ final class LogRecorderTests: XCTestCase {
             self.pipe.fileHandleForReading
                 .readabilityHandler = { [weak self] readHandle in
                 let data = readHandle.availableData
-                if #available(iOS 13.4, macOS 10.15.4, *) {
+                if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
                     try? handle?.write(contentsOf: data)
                 } else {
                     handle?.write(data)
