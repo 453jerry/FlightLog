@@ -50,7 +50,7 @@ public class LogRecorder {
             return nil
         }
 
-        if #available(iOS 13.4, macOS 10.15.4, *) {
+        if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
             _ = try? logFileHandle.seekToEnd()
         } else {
             logFileHandle.seekToEndOfFile()
@@ -59,7 +59,7 @@ public class LogRecorder {
         let header =
         "============= FlightLog.LogRecorder \(logName) =============\n"
         if let data = header.data(using: .utf8) {
-            if #available(iOS 13.4, macOS 10.15.4, *) {
+            if #available(macOS 10.15.4, iOS 13.4, watchOS 6.2, tvOS 13.4, *) {
                 try? logFileHandle.write(contentsOf: data)
             } else {
                 logFileHandle.write(data)
