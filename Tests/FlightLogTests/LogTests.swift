@@ -159,8 +159,8 @@ final class LogTests: XCTestCase {
                     dup2(originStdOut, STDOUT_FILENO)
                 }
                 expectation.fulfill()
-                
-                _ = try? readHandle.readToEnd()
+            
+                _ = readHandle.readDataToEndOfFile()
         }
 
         if method == .print {
